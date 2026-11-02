@@ -4,6 +4,7 @@
 <p align="center">
 <a href="https://github.com/ludinghauserp-sudo/gwg-tv-memberspace-local/releases/latest"><strong>Download the latest version</strong></a> ·
 <a href="#run-the-local-web-version">Local web setup</a> ·
+<a href="#host-on-your-own-server">Self-hosting</a> ·
 <a href="#edit-and-rebuild-without-nodejs">Developer guide</a>
 </p>
 
@@ -35,6 +36,18 @@ Double-click **Start.command** in this folder, or run:
 Your default browser opens http://127.0.0.1:8765/members. Keep the Terminal window open while using it. Press Control-C to stop. If macOS does not allow opening the launcher, run `./start.sh` from Terminal instead.
 
 Data is saved in **Data/** beside the launcher. Keep the entire folder together. Starting it again reopens the same workspace. To use a different port: `GWG_PORT=8767 ./start.sh`.
+
+## Host on your own server
+
+An optional **[hosting/ setup](hosting/README.md)** serves this same web interface on your own Linux server using **Docker, Python and Caddy — no Node.js**. It includes HTTPS, a shared password, persistent SQLite storage, photo uploads and compatible backup/import.
+
+1. Get this repository or the complete local web ZIP.
+2. Open `hosting/`, copy `.env.example` to `.env`, and enter your domain, email and generated password hash.
+3. Run `docker compose up -d --build` from `hosting/`, then open `https://your-domain/members`.
+
+See the **[step-by-step server guide](hosting/README.md)** for DNS, password generation, installation, backups and updates. Everyone with the shared password has full workspace access; this is not the cloud edition's individual member login. Your desktop/local launcher continues to work separately.
+
+The hosting adapter was added without running builds, deployment or tests, as requested.
 
 ## Run the Mac app
 
@@ -103,6 +116,7 @@ Sources/      Swift HTTP service, SQLite storage and desktop shell
 www/          Ready-to-run browser build and starter thumbnails
 Libraries/    Included browser dependencies and their licenses
 bin/          Prebuilt Apple Silicon server and native web build tool
+hosting/      Optional Node-free server hosting with Docker + HTTPS
 script/       Node-free web/native build commands
 start.sh      Start the local browser version
 Start.command Double-click launcher for Finder

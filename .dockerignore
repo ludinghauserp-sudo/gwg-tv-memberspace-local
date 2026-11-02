@@ -1,0 +1,14 @@
+.git
+.codex
+.build
+Data
+work
+dist
+Libraries
+bin
+src
+Sources
+**/.env
+**/.env.*
+**/*.sqlite3*
+**/*.gwgbackup.json

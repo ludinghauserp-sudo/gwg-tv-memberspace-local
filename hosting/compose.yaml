@@ -1,0 +1,41 @@
+name: gwg-memberspace
+services:
+  workspace:
+    build:
+      context: ..
+      dockerfile: hosting/Dockerfile
+    environment:
+      GWG_PUBLIC_ORIGIN: https://${GWG_DOMAIN:?Set GWG_DOMAIN in hosting/.env}
+    volumes:
+      - workspace_data:/data
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    # Deliberately no host ports: access through Caddy only.
+  caddy:
+    image: caddy:2-alpine
+    environment:
+      GWG_DOMAIN: ${GWG_DOMAIN:?Set GWG_DOMAIN in hosting/.env}
+      GWG_EMAIL: ${GWG_EMAIL:?Set GWG_EMAIL in hosting/.env}
+      GWG_USERNAME: ${GWG_USERNAME:-crew}
+      GWG_PASSWORD_HASH: ${GWG_PASSWORD_HASH:?Generate a password hash and set GWG_PASSWORD_HASH}
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - workspace
+    restart: unless-stopped
+volumes:
+  workspace_data:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,18 @@
+{
+    email {$GWG_EMAIL}
+}
+
+{$GWG_DOMAIN} {
+    basic_auth {
+        {$GWG_USERNAME} {$GWG_PASSWORD_HASH}
+    }
+    request_body {
+        max_size 96MB
+    }
+    header {
+        X-Frame-Options DENY
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+    }
+    reverse_proxy workspace:8080
+}
