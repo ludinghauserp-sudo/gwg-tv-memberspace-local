@@ -1,0 +1,12 @@
+.build/
+Data/
+work/
+dist/
+.DS_Store
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.gwgbackup.json
+.env
+.env.*
+!.env.example
